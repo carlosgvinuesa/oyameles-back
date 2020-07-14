@@ -27,7 +27,7 @@ app.use(
     origin: ["http://localhost:3001"],
     credentials: true,
   })
-)
+);
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -36,10 +36,12 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 const lotesRouter = require("./routes/lotes");
+const ventasRouter = require("./routes/ventas");
 const usersRouter = require("./routes/users");
 const pagosRouter = require("./routes/pagos");
 
 app.use("/lotes", lotesRouter);
+app.use("/ventas", ventasRouter);
 app.use("/users", usersRouter);
 app.use("/pagos", pagosRouter);
 

@@ -2,46 +2,27 @@ const { Schema, model } = require("mongoose");
 
 const pagoShema = new Schema(
   {
-    tipo_de_pago: {
+    venta: {
+      type: Schema.Types.ObjectId,
+      ref: "Venta",
+      required: [true, "Debes asociarlo a una venta"]
+    },
+    referencia: {
+      type: Schema.Types.ObjectId,
+    },
+    monto: {
+      type: Number,
+      required: [true, "Debes agregar un monto"]
+    },
+    fecha: {
+      type: Date,
+      required: [true, "Debes agregar una fecha"]
+    },
+    medio_de_pago: {
       type: String,
-      enum: ["Credito", "Contado", "Otro"],
-      default: "Contado",
     },
-    detalle_credito: {
-      type: {
-        fecha_inicial: Date,
-        enganche_$: Number,
-        "enganche_%": Number,
-        principal: Number,
-        tasa: Number,
-        años: Number,
-        meses: Number,
-        pago_mensual: Number,
-      },
-    },
-    pagos_hechos: {
-      type: [
-        {
-          pago: Number,
-          fecha: Date,
-          medio_de_pago: String,
-          comprobante: String,
-        },
-      ],
-    },
-    pagado: {
-      type: Number,
-    },
-    pagos_pendientes: {
-      type: [
-        {
-          pago: Number,
-          fecha: Date,
-        },
-      ],
-    },
-    pendiente: {
-      type: Number,
+    comprobante: {
+      type: String,
     },
     comentarios: {
       type: String,

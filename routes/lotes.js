@@ -7,8 +7,6 @@ const uploader = require("../helpers/multer");
 // INICIO ADMIN
 router.get("/lotes", veryToken, isAdmin, (req, res) => {
   Lote.find()
-    .populate("client")
-    .populate("pagos")
     .then((result) => {
       // const populated = Lote.populate(result, {
       //   path: "client",

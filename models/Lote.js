@@ -13,6 +13,10 @@ const loteShema = new Schema(
         },
       },
     },
+    fase: {
+      type: Number,
+      required: [true, "Debes agregar una Fase"],
+    },
     area: {
       type: Number,
       required: [true, "Debes agregar un Area"],
@@ -32,16 +36,26 @@ const loteShema = new Schema(
       enum: ["Disponible", "Apartado", "Vendido", "Pagado"],
       default: "Disponible",
     },
-    descripcion: {
+    vista: {
+      type: [String],
+    },
+    topografia: {
+      type: [String],
+    },
+    vegetacion: {
+      type: [String],
+    },
+    orientacion: {
       type: String,
     },
-    client: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
+    colindancias: {
+      type: [String],
     },
-    pagos: {
-      type: Schema.Types.ObjectId,
-      ref: "Pago",
+    geometria: {
+      type: [String],
+    },
+    descripcion: {
+      type: String,
     },
   },
   { timestamps: true }
