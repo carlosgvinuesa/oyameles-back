@@ -5,18 +5,23 @@ const pagoShema = new Schema(
     venta: {
       type: Schema.Types.ObjectId,
       ref: "Venta",
-      required: [true, "Debes asociarlo a una venta"]
+      required: [true, "Debes asociarlo a una venta"],
     },
     referencia: {
       type: Schema.Types.ObjectId,
     },
     monto: {
       type: Number,
-      required: [true, "Debes agregar un monto"]
+      required: [true, "Debes agregar un monto"],
     },
     fecha: {
       type: Date,
-      required: [true, "Debes agregar una fecha"]
+      required: [true, "Debes agregar una fecha"],
+    },
+    status: {
+      type: String,
+      enum: ["Pagado", "Pendiente", "Atrasado"],
+      default: "Pendiente",
     },
     medio_de_pago: {
       type: String,

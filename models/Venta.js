@@ -25,6 +25,9 @@ const ventaShema = new Schema(
     comision: {
       type: Number,
     },
+    fecha: {
+      type: Date,
+    },
     client: {
       type: Schema.Types.ObjectId,
       ref: "User",
