@@ -25,6 +25,35 @@ router.post("/", veryToken, isAdmin, uploader.array("images"), (req, res) => {
       res.status(400).json(err);
     });
 });
+
+router.patch(
+  "/:id",
+  veryToken,
+  isAdmin,
+  uploader.array("images"),
+  (req, res) => {
+    const images = req.files.map((file) => file.path);
+    const precio_total = req.body.precio_m2 * req.body.area;
+    const lote = { ...req.body, precio_total: precio_total, images };
+    const { id } = req.params;
+    Lote.findByIdAndUpdate(id, lote, { new: true })
+      .then((result) => {
+        res.status(200).json({ result: result });
+      })
+      .catch((err) => {
+        res.status(400).json(err);
+      });
+  }
+);
+
+router.delete("/:id", veryToken, isAdmin, (req, res) => {
+  const { id } = req.params;
+  Lote.findByIdAndRemove(id)
+    .then((result) => {
+      res.status(200).json({ result: result });
+    })
+    .catch((err) => res.status(400).json(err));
+});
 // FIN ADMIN
 
 router.get("/", veryToken, (req, res) => {

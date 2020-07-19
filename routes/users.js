@@ -13,6 +13,26 @@ router.get("/clientes", veryToken, isAdmin, (req, res) => {
     })
     .catch((err) => res.status(400).json(err));
 });
+
+router.patch("/:id", veryToken, isAdmin, (req, res) => {
+  const { id } = req.params;
+  Venta.findByIdAndUpdate(id, req.body, { new: true })
+    .then((result) => {
+      res.status(200).json({ result });
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+router.delete("/:id", veryToken, isAdmin, (req, res) => {
+  const { id } = req.params;
+  Lote.findByIdAndRemove(id)
+    .then((result) => {
+      res.status(200).json({ result: result });
+    })
+    .catch((err) => res.status(400).json(err));
+});
 // FINADMIN
 
 router.post("/signup", (req, res) => {

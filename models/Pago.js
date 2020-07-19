@@ -7,8 +7,9 @@ const pagoShema = new Schema(
       ref: "Venta",
       required: [true, "Debes asociarlo a una venta"],
     },
-    referencia: {
-      type: Schema.Types.ObjectId,
+    numero_de_pago: {
+      type: Number,
+      required: [true, "Debes agregar un numero de pago"],
     },
     monto: {
       type: Number,
