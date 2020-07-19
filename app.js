@@ -40,9 +40,13 @@ const ventasRouter = require("./routes/ventas");
 const usersRouter = require("./routes/users");
 const pagosRouter = require("./routes/pagos");
 
-app.use("/lotes", lotesRouter);
-app.use("/ventas", ventasRouter);
-app.use("/users", usersRouter);
-app.use("/pagos", pagosRouter);
+app.use("/api/lotes", lotesRouter);
+app.use("/api/ventas", ventasRouter);
+app.use("/api/users", usersRouter);
+app.use("/api/pagos", pagosRouter);
+
+app.use("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
 
 module.exports = app;
