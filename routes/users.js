@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 const { veryToken, isAdmin } = require("../helpers/auth");
 
 // ADMIN
-router.get("/clientes", veryToken, isAdmin, (req, res) => {
+router.get("/", veryToken, isAdmin, (req, res) => {
   User.find()
     .then((result) => {
       res.status(200).json({ result });

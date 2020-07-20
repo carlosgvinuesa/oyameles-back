@@ -4,9 +4,13 @@ const userSchema = new Schema(
   {
     nombre: {
       type: String,
-    },
-    apellido: {
-      type: String,
+      validate: {
+        message: "El nombre ya existe",
+        validator: async (nombre) => {
+          const items = await models["User"].count({ nombre });
+          return items < 1;
+        },
+      },
     },
     email: {
       type: String,
@@ -25,7 +29,7 @@ const userSchema = new Schema(
     },
     rol: {
       type: String,
-      enum: ["Admin", "Cliente"],
+      enum: ["Admin", "Cliente", "Vendedor"],
       default: "Cliente",
     },
     celular: {

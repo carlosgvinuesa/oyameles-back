@@ -21,8 +21,7 @@ const pagoShema = new Schema(
     },
     status: {
       type: String,
-      enum: ["Pagado", "Pendiente", "Atrasado"],
-      default: "Pendiente",
+      enum: ["Pagado", "Pendiente"],
     },
     medio_de_pago: {
       type: String,

@@ -5,7 +5,6 @@ const ventaShema = new Schema(
     tipo_de_venta: {
       type: String,
       enum: ["Credito", "Contado", "Otro"],
-      default: "Contado",
     },
     detalle_credito: {
       type: {
@@ -20,7 +19,8 @@ const ventaShema = new Schema(
       },
     },
     vendedor: {
-      type: String,
+      type: Schema.Types.ObjectId,
+      ref: "User",
     },
     comision: {
       type: Number,
@@ -35,25 +35,6 @@ const ventaShema = new Schema(
     lote: {
       type: Schema.Types.ObjectId,
       ref: "Lote",
-    },
-    pagos: {
-      type: [
-        {
-          monto: Number,
-          fecha: Date,
-          status: {
-            type: String,
-            enum: ["Pagado", "Pendiente"],
-            default: "Pendiente",
-          },
-        },
-      ],
-    },
-    pagado: {
-      type: Number,
-    },
-    pendiente: {
-      type: Number,
     },
     comentarios: {
       type: String,

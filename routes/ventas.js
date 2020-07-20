@@ -8,6 +8,7 @@ const uploader = require("../helpers/multer");
 router.get("/", veryToken, isAdmin, (req, res) => {
   Venta.find()
     .populate("client")
+    .populate("vendedor")
     .populate("lote")
     .populate("pagos_hechos")
     .then((result) => {
