@@ -36,6 +36,9 @@ const ventaShema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Lote",
     },
+    images: {
+      type: [String],
+    },
     comentarios: {
       type: String,
     },

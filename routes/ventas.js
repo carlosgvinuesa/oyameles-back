@@ -21,27 +21,68 @@ router.get("/", veryToken, isAdmin, (req, res) => {
     .catch((err) => res.status(400).json(err));
 });
 
-router.post("/", veryToken, isAdmin, (req, res) => {
-  Venta.create({ ...req.body })
+router.post("/", veryToken, isAdmin, uploader.array("images"), (req, res) => {
+  let images;
+  let venta = { ...req.body };
+  if (req.files.length) {
+    images = req.files.map((file) => file.path);
+    venta['images']=images
+  }
+  let detalle_credito = {
+    pago_mensual: req.body["pago_mensual"],
+    meses: req.body["meses"],
+    años: req.body["años"],
+    fecha_inicial: req.body["fecha_inicial"],
+    principal: req.body["principal"],
+    tasa: req.body["tasa"],
+    enganche_$: req.body["enganche_$"],
+    "enganche_%": req.body["enganche_%"],
+  };
+  venta['detalle_credito']=detalle_credito
+
+  Venta.create(venta)
     .then((result) => {
       res.status(200).json({ result });
     })
     .catch((err) => {
+      console.log(err);
       res.status(400).json(err);
     });
 });
 
-router.patch("/:id", veryToken, isAdmin, (req, res) => {
-  const { id } = req.params;
-  console.log(req.params);
-  Venta.findByIdAndUpdate(id, req.body, { new: true })
-    .then((result) => {
-      res.status(200).json({ result });
-    })
-    .catch((err) => {
-      res.status(400).json(err);
-    });
-});
+router.patch(
+  "/:id",
+  veryToken,
+  isAdmin,
+  uploader.array("images"),
+  (req, res) => {
+    let images;
+    let venta = { ...req.body };
+    if (req.files.length) {
+      images = req.files.map((file) => file.path);
+      venta['images']=images
+    }
+    let detalle_credito = {
+      pago_mensual: req.body["pago_mensual"],
+      meses: req.body["meses"],
+      años: req.body["años"],
+      fecha_inicial: req.body["fecha_inicial"],
+      principal: req.body["principal"],
+      tasa: req.body["tasa"],
+      enganche_$: req.body["enganche_$"],
+      "enganche_%": req.body["enganche_%"],
+    };
+    venta['detalle_credito']=detalle_credito
+    const { id } = req.params;
+    Venta.findByIdAndUpdate(id, venta, { new: true })
+      .then((result) => {
+        res.status(200).json({ result });
+      })
+      .catch((err) => {
+        res.status(400).json(err);
+      });
+  }
+);
 
 router.delete("/:id", veryToken, isAdmin, (req, res) => {
   const { id } = req.params;

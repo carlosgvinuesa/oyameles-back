@@ -14,9 +14,13 @@ router.get("/lotes", veryToken, isAdmin, (req, res) => {
 });
 
 router.post("/", veryToken, isAdmin, uploader.array("images"), (req, res) => {
-  const images = req.files.map((file) => file.path);
-  const precio_total = req.body.precio_m2 * req.body.area;
-  const lote = { ...req.body, precio_total: precio_total, images };
+  let images;
+  let lote = { ...req.body };
+  if (req.files.length) {
+    images = req.files.map((file) => file.path);
+    lote["images"] = images;
+  }
+
   Lote.create(lote)
     .then((result) => {
       res.status(200).json({ result });
@@ -32,9 +36,12 @@ router.patch(
   isAdmin,
   uploader.array("images"),
   (req, res) => {
-    const images = req.files.map((file) => file.path);
-    const precio_total = req.body.precio_m2 * req.body.area;
-    const lote = { ...req.body, precio_total: precio_total, images };
+    let images;
+    let lote = { ...req.body };
+    if (req.files.length) {
+      images = req.files.map((file) => file.path);
+      lote["images"] = images;
+    }
     const { id } = req.params;
     Lote.findByIdAndUpdate(id, lote, { new: true })
       .then((result) => {

@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Pago = require("../models/Pago");
 const { veryToken, isAdmin } = require("../helpers/auth");
+const uploader = require("../helpers/multer");
 
 // INICIO ADMIN
 router.get("/pagos", veryToken, isAdmin, (req, res) => {
@@ -13,8 +14,10 @@ router.get("/pagos", veryToken, isAdmin, (req, res) => {
     .catch((err) => res.status(400).json(err));
 });
 
-router.post("/", veryToken, isAdmin, (req, res) => {
-  Pago.create({ ...req.body })
+router.post("/", veryToken, isAdmin, uploader.array("images"), (req, res) => {
+  const images = req.files.map((file) => file.path);
+  const pago = { ...req.body, images };
+  Pago.create({ pago })
     .then((result) => {
       res.status(200).json({ result });
     })
@@ -23,9 +26,11 @@ router.post("/", veryToken, isAdmin, (req, res) => {
     });
 });
 
-router.patch("/:id", veryToken, isAdmin, (req, res) => {
+router.patch("/:id", veryToken, isAdmin, uploader.array("images"), (req, res) => {
+  const images = req.files.map((file) => file.path);
+  const pago = { ...req.body, images };
   const { id } = req.params;
-  Venta.findByIdAndUpdate(id, req.body, { new: true })
+  Venta.findByIdAndUpdate(id, pago, { new: true })
     .populate("venta")
     .then((result) => {
       res.status(200).json({ result });
