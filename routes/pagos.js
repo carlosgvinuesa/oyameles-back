@@ -15,9 +15,13 @@ router.get("/pagos", veryToken, isAdmin, (req, res) => {
 });
 
 router.post("/", veryToken, isAdmin, uploader.array("images"), (req, res) => {
-  const images = req.files.map((file) => file.path);
-  const pago = { ...req.body, images };
-  Pago.create({ pago })
+  let images;
+  let pago = { ...req.body };
+  if (req.files.length) {
+    images = req.files.map((file) => file.path);
+    pago["images"] = images;
+  }
+  Pago.create( pago )
     .then((result) => {
       res.status(200).json({ result });
     })

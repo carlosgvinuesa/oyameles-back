@@ -26,8 +26,8 @@ const pagoShema = new Schema(
     medio_de_pago: {
       type: String,
     },
-    comprobante: {
-      type: String,
+    images: {
+      type: [String],
     },
     comentarios: {
       type: String,
